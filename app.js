@@ -54,6 +54,7 @@ const displayShowInfo = (show) => {
 
         const runtime = document.createElement('span');
         runtime.style.color = "rgb(101, 145, 255)";
+
         if (show.type == 'series') {
             showType.textContent = "TV Series";
             if (show.firstAirYear == show.lastAirYear) {
@@ -219,7 +220,7 @@ const createShowButtons = (shows) => {
 const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
 searchForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
+    e.preventDefault(); 
     const searchValue = searchInput.value;
     searchInput.value = '';
     const url = `https://streaming-availability.p.rapidapi.com/v2/search/title?title=${searchValue}&country=us&output_language=en`;

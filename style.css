@@ -12,6 +12,7 @@ h1 {
     margin-bottom: 0;
     padding: 15px;
     padding-top: 0;
+    font-size: 2.2rem;
 }
 
 form {
@@ -46,6 +47,7 @@ input#search-input:focus-visible{
 
 body{
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    margin-bottom: 5vh;
 }
 
 body.light-mode {
@@ -175,7 +177,7 @@ h6 {
 
 h2 {
     margin-bottom: 0;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
 }
 
 
@@ -225,3 +227,4 @@ span.badge {
 .menu #moon-button{
     display: none;
 }   
+
