@@ -1,4 +1,4 @@
-const apiKey = 'f864b1076dmsh4fed527ddafa1cap145a43jsncdd3a4930fed';
+const apiKey = process.env.movie_api_key;
 
 function extractYouTubeVideoId(link) {
     const url = new URL(link);
