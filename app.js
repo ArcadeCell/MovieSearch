@@ -6,6 +6,28 @@ function extractYouTubeVideoId(link) {
     return params.get('v');
 }
 
+const lightMode = () => {
+    moonButton.style.display = "inline-block";
+    sunButton.style.display = "none";
+    body.classList.remove('dark-mode');
+    body.classList.add('light-mode');
+    const actorSpans = document.querySelectorAll('span.showYear, span.genre, span.actor, span.director');
+    for (let i = 0; i < actorSpans.length; i++) {
+        actorSpans[i].style.color = "var(--creatorsStarsGenreslightColor)";
+    }
+}
+
+const darkMode = () => {
+    sunButton.style.display = "inline-block";
+    moonButton.style.display = "none";
+    body.classList.remove('light-mode');
+    body.classList.add('dark-mode');
+    const actorSpans = document.querySelectorAll('span.showYear, span.genre, span.actor, span.director');
+    for (let i = 0; i < actorSpans.length; i++) {
+        actorSpans[i].style.color = "var(--creatorsStarsGenresdarkColor)";
+    }
+}
+
 const menu = document.querySelector('.menu');
 const body = document.querySelector('body');
 const sunButton = document.querySelector('#sun-button');

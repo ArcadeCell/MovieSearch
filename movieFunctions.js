@@ -18,25 +18,3 @@ const minutesToHours = (minutes) => {
     else if (mins == 0) return hours + "h";
     else return hours + "h " + mins + "m";
 }
-
-const lightMode = () => {
-    moonButton.style.display = "inline-block";
-    sunButton.style.display = "none";
-    body.classList.remove('dark-mode');
-    body.classList.add('light-mode');
-    const actorSpans = document.querySelectorAll('span.showYear, span.genre, span.actor, span.director');
-    for (let i = 0; i < actorSpans.length; i++) {
-        actorSpans[i].style.color = "var(--creatorsStarsGenreslightColor)";
-    }
-}
-
-const darkMode = () => {
-    sunButton.style.display = "inline-block";
-    moonButton.style.display = "none";
-    body.classList.remove('light-mode');
-    body.classList.add('dark-mode');
-    const actorSpans = document.querySelectorAll('span.showYear, span.genre, span.actor, span.director');
-    for (let i = 0; i < actorSpans.length; i++) {
-        actorSpans[i].style.color = "var(--creatorsStarsGenresdarkColor)";
-    }
-}
