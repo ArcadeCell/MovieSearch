@@ -1,4 +1,5 @@
-const apiKey = 'f864b1076dmsh4fed527ddafa1cap145a43jsncdd3a4930fed';
+require('dotenv').config();
+const apiKey = process.env.API_KEY;
 
 function extractYouTubeVideoId(link) {
     const url = new URL(link);
