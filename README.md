@@ -6,9 +6,6 @@ The application fetches data using the streaming-availability API and presents i
 This application provides a comprehensive and user-friendly interface for movie enthusiasts to find and explore information about their favorite movies. 
 By entering a movie title, users can access detailed information, ratings, and reviews.</p>
 
-## User Interface
-<img src="https://github.com/kevintian4/Movie-Search/blob/master/static/Interface.png">
-
 ## Features
 - **Movie Search**: Search for detailed information about any movie.
 - **Ratings and Reviews**: View ratings and reviews from various sources.
