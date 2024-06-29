@@ -1,6 +1,14 @@
 {
+  "name": "movie-search",
+  "version": "1.0.0",
+  "description": "A movie search application.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "devDependencies": {
     "dotenv-webpack": "^8.0.1",
+    "gh-pages": "^6.1.1",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
   },
@@ -11,5 +19,8 @@
     "express": "^4.19.2",
     "http-server": "^14.1.1",
     "node-fetch": "^3.3.2"
-  }
+  },
+  "type": "module",
+  "author": "Kevin Tian",
+  "license": "MIT"
 }

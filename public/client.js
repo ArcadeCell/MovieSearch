@@ -47,17 +47,17 @@ const displayShowInfo = (show) => {
         const runtime = document.createElement('span');
         runtime.style.color = "rgb(101, 145, 255)";
 
-        if (show.type == 'series') {
+        if (show.showType == 'series') {
             showType.textContent = "TV Series";
             if (show.firstAirYear == show.lastAirYear) {
                 showYear.textContent = "(" + show.firstAirYear + ")";
             } else {
                 showYear.textContent = "(" + show.firstAirYear + '-' + show.lastAirYear + ")";
             }
-            runtime.innerHTML = minutesToHours(show.episodeRuntimes[0]);
+            // runtime.innerHTML = minutesToHours(show.episodeRuntimes[0]);
         } else {
             showType.textContent = "Movie";
-            showYear.textContent = "(" + show.year + ")";
+            showYear.textContent = "(" + show.releaseYear + ")";
             runtime.innerHTML = minutesToHours(show.runtime);
         }
         showInfo.appendChild(showType);
@@ -71,12 +71,13 @@ const displayShowInfo = (show) => {
         // create genres and append to genres container
         const showGenres = document.createElement('h6');
         showGenres.display = 'inline-block';
-        for(let i=0; i<show.genres.length; i++){
+        const maxGenres = Math.min(show.genres.length, 3);
+        for (let i = 0; i < maxGenres; i++){
             const genresSpan = document.createElement('span');
             genresSpan.classList.add("genre");
             genresSpan.style.color = "var(--creatorsStarsGenresdarkColor)";
             genresSpan.textContent += show.genres[i].name;
-            if(i < show.genres.length - 1){
+            if(i < maxGenres - 1){
                 genresSpan.innerHTML += ", ";
             };
             showGenres.appendChild(genresSpan);
@@ -88,38 +89,38 @@ const displayShowInfo = (show) => {
     imageContainer.classList.add('image-container');
     // create image element and append to image container
     const img = document.createElement('img');
-    img.src = show.posterURLs.original;
+    img.src = show.imageSet.verticalPoster.w720;
     img.classList.add('movie-page-img');
     // create rating badge and append to image container
     const rating = document.createElement('span');
     rating.classList.add('badge');
-    rating.innerText = (show.imdbRating / 10).toFixed(1) + "/10";
+    rating.innerText = (show.rating / 10).toFixed(1) + "/10";
     
     // append image container to movie media page
     imageContainer.appendChild(img);
     imageContainer.appendChild(rating);
     moviePageMedia.appendChild(imageContainer);
 
-    // create trailer iframe and append to movie media page
-    if(show.youtubeTrailerVideoLink){
-        const iframe = document.createElement('iframe');
-        const videoID = extractYouTubeVideoId(show.youtubeTrailerVideoLink);
-        iframe.classList.add('movie-page-trailer');
-        iframe.src = `https://www.youtube.com/embed/${videoID}`;
-        iframe.allowFullscreen = true;
-        moviePageMedia.append(iframe);
-    }
+    // // create trailer iframe and append to movie media page
+    // if(show.youtubeTrailerVideoLink){
+    //     const iframe = document.createElement('iframe');
+    //     const videoID = extractYouTubeVideoId(show.youtubeTrailerVideoLink);
+    //     iframe.classList.add('movie-page-trailer');
+    //     iframe.src = `https://www.youtube.com/embed/${videoID}`;
+    //     iframe.allowFullscreen = true;
+    //     moviePageMedia.append(iframe);
+    // }
     
-    if(show.tagline){
-        const tagline = document.createElement('p');
-        tagline.innerHTML = show.tagline;
-        tagline.display = 'block';
-        tagline.style.marginBottom = 0;
-        tagline.style.fontStyle = 'italic';
-        tagline.style.fontWeight = 'bold';
-        tagline.style.fontSize = '1.4rem';
-        moviePageDescription.append(tagline);
-    }
+    // if(show.tagline){
+    //     const tagline = document.createElement('p');
+    //     tagline.innerHTML = show.tagline;
+    //     tagline.display = 'block';
+    //     tagline.style.marginBottom = 0;
+    //     tagline.style.fontStyle = 'italic';
+    //     tagline.style.fontWeight = 'bold';
+    //     tagline.style.fontSize = '1.4rem';
+    //     moviePageDescription.append(tagline);
+    // }
 
     // create description and append to movie description page
     if(show.overview){
@@ -136,6 +137,7 @@ const displayShowInfo = (show) => {
     // function for creating directors
     function createDirectors(showType){
         let directors;
+        const maxDirectors = Math.min(show.directors.length, 3);
         if (showType === "series") {
             directors = show.creators;
             director.innerHTML += "Creators: ";
@@ -143,23 +145,22 @@ const displayShowInfo = (show) => {
             directors = show.directors;
             director.innerHTML += "Director: ";
         }
-        for (let i = 0; i < directors.length; i++) {
+        for (let i = 0; i < maxDirectors; i++) {
             const directorSpan = document.createElement('span');
             directorSpan.classList.add("director");
             directorSpan.style.color = "var(--creatorsStarsGenresdarkColor)";
             directorSpan.textContent = directors[i];
             // if not last director, add comma after name
-            if (i < directors.length - 1) {
+            if (i < maxDirectors - 1) {
                 directorSpan.textContent += ", ";
             }
             director.appendChild(directorSpan);
         }
     }
     // call createDirectors function passing in show type
-    createDirectors(show.type);
+    createDirectors(show.showType);
     moviePageDirectors.appendChild(director);
     moviePageDirectors.classList.add("bottom-line");
-
 
     if(show.cast){
         const cast1 = document.createElement('h3');
@@ -192,9 +193,9 @@ const createShowButtons = (shows) => {
         movieList.append(noResults);    
     } else {
         for(let show of shows) {
-            if(show.posterURLs.original) {
+            if(show.imageSet.verticalPoster.w720) {
                 const img = document.createElement('img');
-                img.src = show.posterURLs.original;
+                img.src = show.imageSet.verticalPoster.w720;
                 img.classList.add('movie-img');
                 img.addEventListener('load', () => {
                     img.classList.add('loaded');
@@ -227,17 +228,12 @@ searchForm.addEventListener('submit', async function (e) {
         });
 
         if (!response.ok) {
-            throw new Error('Network response error');
+            throw new Error(`Network response error: ${response.statusText}`);
         }
 
         const data = await response.json();
         createShowButtons(data);
     } catch (error) {
-        console.log('There was a problem with the fetch operation:', error);
+        console.error('There was a problem with the fetch operation:', error);
     }
 });
-
-
-
-
-
